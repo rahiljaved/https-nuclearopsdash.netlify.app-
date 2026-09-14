@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeFounder — Pricing</title>
+<meta name="description" content="CodeFounder AI Agents: build the exact plan your business needs. Operations Agent, Marketing Agent, or bundle both — with live pricing as you configure.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%233d5af1%22/><text x=%2250%22 y=%2266%22 font-size=%2258%22 font-family=%22Arial%22 font-weight=%22bold%22 fill=%22white%22 text-anchor=%22middle%22>C</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="logo" href="#top">CodeFounder</a>
+    <nav class="main-nav">
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact" class="btn btn-small btn-primary">Contact Us</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">AI Agents for growing businesses</p>
+      <h1>Pay only for the agent you actually need.</h1>
+      <p class="hero-sub">
+        Pick <strong>Operations</strong> to handle calls, bookings and site chat, <strong>Marketing</strong> to run your
+        social &amp; email, both as a <strong>Bundle</strong>, or a fully <strong>Custom</strong> build. Start on a low
+        base price, then add exactly the features you want and watch the price update live.
+      </p>
+      <a href="#pricing" class="btn btn-primary btn-large">See Pricing</a>
+    </div>
+  </section>
+
+  <section id="pricing" class="pricing-section">
+    <div class="wrap">
+      <h2>Choose your starting point</h2>
+      <p class="section-sub">Every plan opens a quick configurator — nothing is bundled in that you didn't ask for.</p>
+
+      <div class="plan-grid">
+
+        <!-- OPERATIONS AGENT -->
+        <article class="plan-card" data-plan="operations">
+          <div class="plan-card-top">
+            <h3>Operations Agent</h3>
+            <p class="plan-tag">Calls · Bookings · Site Chat</p>
+            <p class="plan-price"><span class="from">Starting at</span><span class="amount">CAD $19</span><span class="period">/mo</span></p>
+            <ul class="plan-includes">
+              <li>Website chat widget</li>
+              <li>Live client dashboard</li>
+              <li>AI answers to visitor questions</li>
+            </ul>
+          </div>
+          <div class="plan-card-bottom">
+            <p class="plan-note">Add voice, calendar booking, multi-language &amp; more — only if you need them.</p>
+            <button class="btn btn-primary btn-block" data-open-wizard="operations">Build Your Plan</button>
+          </div>
+        </article>
+
+        <!-- MARKETING AGENT -->
+        <article class="plan-card" data-plan="marketing">
+          <div class="plan-card-top">
+            <h3>Marketing Agent</h3>
+            <p class="plan-tag">Social Media · Email</p>
+            <p class="plan-price"><span class="from">Starting at</span><span class="amount">CAD $29</span><span class="period">/mo</span></p>
+            <ul class="plan-includes">
+              <li>Facebook + Instagram posting</li>
+              <li>5 posts / month</li>
+              <li>Content calendar &amp; approvals</li>
+            </ul>
+          </div>
+          <div class="plan-card-bottom">
+            <p class="plan-note">Add more channels, more posts, or email marketing as your reach grows.</p>
+            <button class="btn btn-primary btn-block" data-open-wizard="marketing">Build Your Plan</button>
+          </div>
+        </article>
+
+        <!-- BUNDLE -->
+        <article class="plan-card plan-card-featured" data-plan="bundle">
+          <div class="badge">Most Complete</div>
+          <div class="plan-card-top">
+            <h3>Bundle</h3>
+            <p class="plan-tag">Operations + Marketing</p>
+            <p class="plan-price"><span class="from">Starting at</span><span class="amount">CAD $49</span><span class="period">/mo</span></p>
+            <ul class="plan-includes">
+              <li>Everything in Operations base</li>
+              <li>Everything in Marketing base</li>
+              <li>One dashboard for both agents</li>
+            </ul>
+          </div>
+          <div class="plan-card-bottom">
+            <p class="plan-note">One configurator, one bill — for businesses that want it all handled.</p>
+            <button class="btn btn-primary btn-block" data-open-wizard="bundle">Build Your Plan</button>
+          </div>
+        </article>
+
+        <!-- CUSTOM -->
+        <article class="plan-card" data-plan="custom">
+          <div class="plan-card-top">
+            <h3>Custom</h3>
+            <p class="plan-tag">Tailored Integration</p>
+            <p class="plan-price"><span class="amount amount-text">Let's Talk</span></p>
+            <ul class="plan-includes">
+              <li>Custom integrations &amp; workflows</li>
+              <li>Dedicated onboarding</li>
+              <li>Volume &amp; multi-location pricing</li>
+            </ul>
+          </div>
+          <div class="plan-card-bottom">
+            <p class="plan-note">Tell us what you're running today and we'll design the right setup.</p>
+            <a href="#contact" class="btn btn-outline btn-block">Contact Us</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="faq-section">
+    <div class="wrap">
+      <h2>Why two agents instead of one plan?</h2>
+      <p class="section-sub">
+        Most businesses only need one side to start. A clinic wants call handling and booking, not social posts.
+        A boutique wants Instagram content, not a phone agent. So you start small on the side you need, see the
+        price change live as you add features, and upgrade to the Bundle only when you're ready for both.
+      </p>
+    </div>
+  </section>
+
+  <section id="contact" class="contact-section">
+    <div class="wrap">
+      <h2>Get started</h2>
+      <p class="section-sub">Send us your plan and we'll follow up with a confirmed quote within one business day.</p>
+
+      <form id="contact-form" name="contact" method="POST" data-netlify="true" class="contact-form">
+        <input type="hidden" name="form-name" value="contact">
+        <div class="form-row">
+          <label for="cf-name">Name</label>
+          <input type="text" id="cf-name" name="name" required>
+        </div>
+        <div class="form-row">
+          <label for="cf-email">Email</label>
+          <input type="email" id="cf-email" name="email" required>
+        </div>
+        <div class="form-row">
+          <label for="cf-business">Business name</label>
+          <input type="text" id="cf-business" name="business">
+        </div>
+        <div class="form-row">
+          <label for="cf-message">Tell us what you need</label>
+          <textarea id="cf-message" name="message" rows="6" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-large">Send</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>&copy; 2026 CodeFounder. All prices in CAD, billed monthly.</p>
+  </div>
+</footer>
+
+<!-- WIZARD MODAL -->
+<div id="wizard-overlay" class="wizard-overlay" hidden>
+  <div class="wizard-modal" role="dialog" aria-modal="true" aria-labelledby="wizard-title">
+    <button type="button" class="wizard-close" id="wizard-close" aria-label="Close">&times;</button>
+    <div class="wizard-header">
+      <h3 id="wizard-title">Configure your plan</h3>
+      <p id="wizard-subtitle" class="wizard-subtitle"></p>
+    </div>
+    <div id="wizard-body" class="wizard-body"></div>
+    <div class="wizard-footer">
+      <div class="wizard-total">
+        <span class="wizard-total-label">Your estimated price</span>
+        <span id="wizard-total-amount" class="wizard-total-amount">CAD $0/mo</span>
+      </div>
+      <button type="button" id="wizard-cta" class="btn btn-primary btn-large">Get This Plan</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/pricing.js"></script>
+<script src="assets/js/wizard.js"></script>
+</body>
+</html>
