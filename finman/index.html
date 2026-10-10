@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinMan by CodeFounder</title>
+<meta name="description" content="FinMan by CodeFounder: an AI finance manager that connects to QuickBooks and turns your books into cash flow indicators, spending alerts, revenue forecasts and a plain-language action plan. Available to invited clients.">
+<!-- Invite-only product: shared directly with selected clients, kept out of search results. -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%2317b995%22/><text x=%2250%22 y=%2266%22 font-size=%2252%22 font-family=%22Arial%22 font-weight=%22bold%22 fill=%22white%22 text-anchor=%22middle%22>F</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="finman.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="logo" href="#top">FinMan <span class="fm-by">by CodeFounder</span></a>
+    <nav class="main-nav">
+      <a href="#demo">Demo</a>
+      <a href="#how">How it works</a>
+      <a href="#access" class="btn btn-small btn-primary">Request Access</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow"><span class="fm-invite">Invite-only</span> AI finance manager for small businesses</p>
+      <h1>Know where your money is going, and what to do next.</h1>
+      <p class="hero-sub">
+        FinMan connects to your QuickBooks and turns your books into a cash flow health score, spending alerts,
+        late-payment tracking, a 12-month revenue forecast and a short monthly plan you can act on.
+        It's written in plain language for business owners, not accountants.
+      </p>
+      <div class="fm-hero-ctas">
+        <a href="#demo" class="btn btn-primary btn-large">See the live demo</a>
+        <a href="#access" class="btn btn-outline btn-large">Request access</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO DASHBOARD -->
+  <section id="demo" class="fm-demo">
+    <div class="wrap">
+      <div class="fm-demo-head">
+        <div>
+          <p class="eyebrow">Live demo · sample data</p>
+          <h2 class="fm-left">Maple Street Café</h2>
+          <p class="fm-asof">Fictional business · QuickBooks synced Oct 10, 2026 · All amounts CAD</p>
+        </div>
+      </div>
+
+      <div id="fm-tiles" class="fm-tiles"></div>
+
+      <div class="fm-grid-2">
+        <article class="fm-card">
+          <h3>FinMan summary</h3>
+          <p id="fm-summary-text" class="fm-summary"></p>
+          <p class="fm-footnote">Written from the numbers on this page. FinMan's AI explains the figures; it never calculates them.</p>
+        </article>
+        <article class="fm-card">
+          <h3>Health score breakdown</h3>
+          <div id="fm-score-parts" class="fm-score-parts"></div>
+        </article>
+      </div>
+
+      <article class="fm-card">
+        <h3>What to improve this month</h3>
+        <ol id="fm-recs" class="fm-recs"></ol>
+      </article>
+
+      <article class="fm-card">
+        <h3>Monthly revenue: actual and 12-month forecast</h3>
+        <p class="fm-legend">
+          <span class="fm-key fm-key-solid"></span>Actual
+          <span class="fm-key fm-key-dash"></span>Forecast
+          <span class="fm-key fm-key-band"></span>Likely range
+        </p>
+        <div id="fm-revenue-chart"></div>
+        <p id="fm-revenue-note" class="fm-footnote"></p>
+      </article>
+
+      <article class="fm-card">
+        <h3>Cash balance: next 13 weeks</h3>
+        <p class="fm-sub">Starts from today's bank balance, adds expected sales and invoice payments, and subtracts payroll, rent, suppliers and the GST/HST remittance.</p>
+        <div id="fm-cash-chart"></div>
+        <details class="fm-details">
+          <summary>Show week-by-week table</summary>
+          <div class="fm-table-wrap">
+            <table id="fm-cash-table" class="fm-table">
+              <thead><tr><th>Week of</th><th class="num">Money in</th><th class="num">Money out</th><th class="num">Balance</th><th>Notable items</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </details>
+      </article>
+
+      <div class="fm-grid-2">
+        <article class="fm-card">
+          <h3>Spending markers</h3>
+          <p class="fm-sub">Each category's average over the last 3 months, compared as a share of sales so that growth doesn't hide rising costs.</p>
+          <div class="fm-table-wrap">
+            <table id="fm-markers" class="fm-table">
+              <thead><tr><th>Category</th><th class="num">Avg / mo</th><th class="num">Change</th><th class="num">% of sales</th><th>Status</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </article>
+        <div class="fm-stack">
+          <article class="fm-card">
+            <h3>Who owes you</h3>
+            <div class="fm-table-wrap">
+              <table id="fm-ar" class="fm-table">
+                <thead><tr><th>Customer</th><th>Invoice</th><th class="num">Amount</th><th>Status</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+          <article class="fm-card">
+            <h3>Subscriptions</h3>
+            <p id="fm-subs-total" class="fm-sub"></p>
+            <div class="fm-table-wrap fm-scroll">
+              <table id="fm-subs" class="fm-table">
+                <thead><tr><th>Vendor</th><th class="num">Monthly</th><th>Flags</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" class="fm-how">
+    <div class="wrap">
+      <h2>How FinMan works</h2>
+      <p class="section-sub">Read-only access to your books, exact calculations and plain-language advice.</p>
+      <div class="fm-steps">
+        <div class="fm-step">
+          <span class="fm-step-num">1</span>
+          <h3>Connect</h3>
+          <p>Sign in to QuickBooks Online with read-only access. FinMan can't move money or change your books.</p>
+        </div>
+        <div class="fm-step">
+          <span class="fm-step-num">2</span>
+          <h3>Calculate</h3>
+          <p>Every night FinMan syncs your sales, expenses, invoices and bills and recalculates your indicators and forecasts with transparent formulas.</p>
+        </div>
+        <div class="fm-step">
+          <span class="fm-step-num">3</span>
+          <h3>Explain</h3>
+          <p>The AI turns those numbers into a short summary and a ranked action list, each with its dollar impact.</p>
+        </div>
+        <div class="fm-step">
+          <span class="fm-step-num">4</span>
+          <h3>Alert</h3>
+          <p>You get a weekly brief and instant alerts on the FinMan app (iOS and Android) or by email, for example when cash is about to dip or an invoice goes 30 days late.</p>
+        </div>
+      </div>
+
+      <div class="fm-grid-2 fm-who">
+        <article class="fm-card">
+          <h3>Built for</h3>
+          <ul class="plan-includes">
+            <li>Owner-run businesses with roughly $250K–$5M in yearly revenue</li>
+            <li>Restaurants, clinics, retail, trades and professional services</li>
+            <li>Canadian businesses: CAD, GST/HST and CRA remittance dates built in</li>
+            <li>Bookkeepers who want one view across all their clients</li>
+          </ul>
+        </article>
+        <article class="fm-card">
+          <h3>Your data, protected</h3>
+          <ul class="plan-includes">
+            <li>Read-only QuickBooks connection, which you can revoke any time</li>
+            <li>Encrypted in transit and at rest</li>
+            <li>Never sold, and never used to train AI models</li>
+            <li>Export everything to Excel or Power BI</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACCESS -->
+  <section id="access" class="contact-section">
+    <div class="wrap">
+      <h2>Request access</h2>
+      <p class="section-sub">
+        FinMan is offered to selected CodeFounder clients and set up for each business. We start with a free
+        30-minute financial health review, then quote a plan for your business. Plans start from CAD $49/mo.
+      </p>
+
+      <form name="finman-access" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="contact-form">
+        <input type="hidden" name="form-name" value="finman-access">
+        <p hidden><label>Leave empty <input name="bot-field"></label></p>
+        <div class="form-row">
+          <label for="fa-name">Name</label>
+          <input type="text" id="fa-name" name="name" required>
+        </div>
+        <div class="form-row">
+          <label for="fa-email">Email</label>
+          <input type="email" id="fa-email" name="email" required>
+        </div>
+        <div class="form-row">
+          <label for="fa-business">Business name</label>
+          <input type="text" id="fa-business" name="business" required>
+        </div>
+        <div class="form-row">
+          <label for="fa-books">Accounting software</label>
+          <select id="fa-books" name="accounting_software">
+            <option>QuickBooks Online</option>
+            <option>QuickBooks Desktop</option>
+            <option>Xero</option>
+            <option>Wave</option>
+            <option>Spreadsheets / none</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="fa-revenue">Approximate yearly revenue (CAD)</label>
+          <select id="fa-revenue" name="revenue_band">
+            <option>Under $250K</option>
+            <option>$250K – $1M</option>
+            <option>$1M – $5M</option>
+            <option>Over $5M</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="fa-code">Invite code (if you have one)</label>
+          <input type="text" id="fa-code" name="invite_code">
+        </div>
+        <div class="form-row">
+          <label for="fa-message">What would you most like to know about your finances?</label>
+          <textarea id="fa-message" name="message" rows="4"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-large">Request Access</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>&copy; 2026 CodeFounder. FinMan gives financial insights, not professional accounting, tax or investment advice. Demo data is fictional.</p>
+  </div>
+</footer>
+
+<script src="finman.js"></script>
+</body>
+</html>
