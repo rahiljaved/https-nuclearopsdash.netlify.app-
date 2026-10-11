@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>CodeFounder Pakistan Demo</title>
+<meta name="description" content="Sales demo for CodeFounder partners in Pakistan: sign-up wizard in PKR and a sample client dashboard.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%233d5af1%22/><text x=%2250%22 y=%2266%22 font-size=%2258%22 font-family=%22Arial%22 font-weight=%22bold%22 fill=%22white%22 text-anchor=%22middle%22>C</text></svg>">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/pk-demo.css">
+</head>
+<body>
+
+<div class="demo-bar">
+  <div class="wrap demo-bar-inner">
+    <span><strong>DEMO MODE</strong> · Pakistan · sample data only, nothing is charged or saved</span>
+    <span class="demo-bar-actions">
+      <button type="button" class="link-btn" id="demo-reset" hidden>Restart demo</button>
+      <button type="button" class="link-btn" id="demo-logout" hidden>Log out</button>
+    </span>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <span class="logo">CodeFounder <span class="logo-pk">Pakistan</span></span>
+    <ol class="steps" id="steps" hidden>
+      <li data-step="plan">Plan</li>
+      <li data-step="configure">Features</li>
+      <li data-step="details">Business</li>
+      <li data-step="payment">Payment</li>
+      <li data-step="setup">Setup</li>
+      <li data-step="dashboard">Dashboard</li>
+    </ol>
+  </div>
+</header>
+
+<main class="wrap demo-main">
+
+  <!-- 0. LOGIN -->
+  <section class="screen" data-screen="login">
+    <div class="card narrow">
+      <h2>Partner demo login</h2>
+      <p class="section-sub">For CodeFounder's Pakistan sales team. Log in to walk a client through sign-up and the dashboard.</p>
+      <form id="login-form" class="contact-form flat" autocomplete="off">
+        <div class="form-row">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" required>
+        </div>
+        <div class="form-row">
+          <label for="login-pass">Password</label>
+          <input type="password" id="login-pass" required>
+        </div>
+        <p class="form-error" id="login-error" hidden>Those demo details don't match. Check the email and password.</p>
+        <button type="submit" class="btn btn-primary btn-large">Start demo</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- 1. PLAN -->
+  <section class="screen" data-screen="plan" hidden>
+    <h2>Choose your starting point</h2>
+    <p class="section-sub">All prices in Pakistani rupees, per month. Start small and add only what you need.</p>
+    <div class="plan-grid three" id="plan-grid"></div>
+  </section>
+
+  <!-- 2. CONFIGURE -->
+  <section class="screen" data-screen="configure" hidden>
+    <div class="split">
+      <div class="card">
+        <h2 class="left" id="cfg-title">Pick your features</h2>
+        <p class="wizard-subtitle" id="cfg-subtitle"></p>
+        <div id="cfg-body" class="cfg-body"></div>
+      </div>
+      <aside class="card summary sticky">
+        <p class="wizard-total-label">Your monthly price</p>
+        <p class="wizard-total-amount big" id="cfg-total">Rs 0</p>
+        <ul class="summary-list" id="cfg-summary"></ul>
+        <button type="button" class="btn btn-primary btn-block" data-next="details">Continue</button>
+        <button type="button" class="btn btn-outline btn-block" data-next="plan">Back to plans</button>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 3. BUSINESS DETAILS -->
+  <section class="screen" data-screen="details" hidden>
+    <div class="split">
+      <div class="card">
+        <h2 class="left">Tell us about your business</h2>
+        <p class="wizard-subtitle">This is what the agent learns from. In a real sign-up, the partner team helps fill it in.</p>
+        <form id="details-form" class="contact-form flat">
+          <div class="form-grid">
+            <div class="form-row">
+              <label for="d-business">Business name</label>
+              <input id="d-business" name="business" required>
+            </div>
+            <div class="form-row">
+              <label for="d-type">Business type</label>
+              <select id="d-type" name="type"></select>
+            </div>
+            <div class="form-row">
+              <label for="d-owner">Owner / contact name</label>
+              <input id="d-owner" name="owner" required>
+            </div>
+            <div class="form-row">
+              <label for="d-city">City</label>
+              <select id="d-city" name="city">
+                <option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Rawalpindi</option>
+                <option>Faisalabad</option><option>Multan</option><option>Peshawar</option><option>Other</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="d-phone">Mobile / WhatsApp</label>
+              <input id="d-phone" name="phone" required placeholder="03XX XXXXXXX">
+            </div>
+            <div class="form-row">
+              <label for="d-hours">Opening hours</label>
+              <input id="d-hours" name="hours" required>
+            </div>
+            <div class="form-row full">
+              <label for="d-website">Website or Facebook page</label>
+              <input id="d-website" name="website" placeholder="facebook.com/yourbusiness">
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline btn-small" id="d-fill">Fill with sample business</button>
+        </form>
+      </div>
+      <aside class="card summary sticky">
+        <p class="wizard-total-label">Your monthly price</p>
+        <p class="wizard-total-amount big" data-total></p>
+        <button type="button" class="btn btn-primary btn-block" id="details-next">Continue to payment</button>
+        <button type="button" class="btn btn-outline btn-block" data-next="configure">Back</button>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 4. PAYMENT -->
+  <section class="screen" data-screen="payment" hidden>
+    <div class="split">
+      <div class="card">
+        <h2 class="left">Review and pay</h2>
+        <p class="wizard-subtitle">Billed monthly in advance. Cancel any time with 30 days' notice.</p>
+        <table class="review-table" id="review-table"></table>
+        <p class="wizard-section-title">Payment method</p>
+        <div class="pay-grid" id="pay-grid">
+          <label class="pay-option"><input type="radio" name="pay" value="JazzCash" checked><span>JazzCash</span></label>
+          <label class="pay-option"><input type="radio" name="pay" value="Easypaisa"><span>Easypaisa</span></label>
+          <label class="pay-option"><input type="radio" name="pay" value="Bank transfer"><span>Bank transfer</span></label>
+          <label class="pay-option"><input type="radio" name="pay" value="Debit / credit card"><span>Debit / credit card</span></label>
+        </div>
+        <p class="note">Demo only — no payment is taken. Invoices are issued by the partner in PKR.</p>
+      </div>
+      <aside class="card summary sticky">
+        <p class="wizard-total-label">Due today</p>
+        <p class="wizard-total-amount big" data-total></p>
+        <button type="button" class="btn btn-primary btn-block" id="pay-btn">Pay &amp; activate</button>
+        <button type="button" class="btn btn-outline btn-block" data-next="details">Back</button>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 5. SETUP -->
+  <section class="screen" data-screen="setup" hidden>
+    <div class="card narrow">
+      <h2>Setting up your agent</h2>
+      <p class="section-sub" id="setup-sub"></p>
+      <ul class="setup-list" id="setup-list"></ul>
+      <button type="button" class="btn btn-primary btn-large" id="setup-done" hidden>Open my dashboard</button>
+    </div>
+  </section>
+
+  <!-- 6. DASHBOARD -->
+  <section class="screen" data-screen="dashboard" hidden>
+    <div class="dash-head">
+      <div>
+        <p class="eyebrow" id="dash-plan"></p>
+        <h2 class="left" id="dash-title"></h2>
+        <p class="wizard-subtitle" id="dash-sub"></p>
+      </div>
+      <nav class="dash-tabs" id="dash-tabs"></nav>
+    </div>
+    <div id="dash-body"></div>
+  </section>
+
+</main>
+
+<script src="../assets/js/pricing.js"></script>
+<script src="../assets/js/pricing-pk.js"></script>
+<script src="../assets/js/pk-demo.js"></script>
+</body>
+</html>
