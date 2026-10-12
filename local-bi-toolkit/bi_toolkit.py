@@ -14,8 +14,12 @@ Commands
   auto     <files/folders...>                        Drag-and-drop mode (see drop_files_here.bat)
 """
 import argparse
+import csv
+import getpass
+import hashlib
 import io
 import json
+import platform
 import socket
 import struct
 import sys
@@ -47,6 +51,35 @@ TABULAR_EXT = EXCEL_EXT | {".csv"}
 OUTPUT_MARKERS = ("_profile_", "_combined_", "_pbi_report_", "_compare_")  # our own result files
 
 
+LOG_FILE = Path(__file__).resolve().parent / "activity_log.csv"
+OUTPUTS = []
+
+
+def sha256(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for block in iter(lambda: f.read(1 << 20), b""):
+            h.update(block)
+    return h.hexdigest()
+
+
+def record_activity(argv, inputs, status):
+    """Append one row per run to activity_log.csv next to this script (local only)."""
+    files = [f for i in inputs for f in ([Path(i)] if Path(i).is_file() else iter_files(i))]
+    row = {"timestamp": f"{datetime.now():%Y-%m-%d %H:%M:%S}",
+           "windows_user": getpass.getuser(), "computer": platform.node(),
+           "command": " ".join(argv), "status": status, "network": "blocked",
+           "input_files": " | ".join(str(f.resolve()) for f in files),
+           "input_sha256": " | ".join(sha256(f) for f in files),
+           "output_files": " | ".join(str(o.resolve()) for o in OUTPUTS)}
+    new = not LOG_FILE.exists()
+    with open(LOG_FILE, "a", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=list(row))
+        if new:
+            w.writeheader()
+        w.writerow(row)
+
+
 def log(msg):
     print(f"[{datetime.now():%H:%M:%S}] {msg}")
 
@@ -66,6 +99,7 @@ def write_sheets(path, sheets):
                 width = max(len(str(c.value or "")) for c in col[:200])
                 ws.column_dimensions[col[0].column_letter].width = min(max(10, width + 2), 80)
             ws.freeze_panes = "A2"
+    OUTPUTS.append(Path(path))
     log(f"Saved {path.resolve()}")
 
 
@@ -311,7 +345,15 @@ def main():
     p.add_argument("--sheet"); p.add_argument("-o", "--out"); p.set_defaults(fn=cmd_compare)
     p = sub.add_parser("auto"); p.add_argument("paths", nargs="+"); p.set_defaults(fn=cmd_auto)
     args = ap.parse_args()
-    args.fn(args)
+    inputs = [getattr(args, k) for k in ("file", "target", "folder", "old", "new") if getattr(args, k, None)]
+    inputs += getattr(args, "paths", None) or []
+    status = "error"
+    try:
+        args.fn(args)
+        status = "ok"
+    finally:
+        record_activity(sys.argv[1:], [i for i in map(Path, inputs) if i.exists()], status)
+        log(f"Logged this run to {LOG_FILE}")
 
 
 if __name__ == "__main__":

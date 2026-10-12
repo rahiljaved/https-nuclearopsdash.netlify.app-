@@ -64,6 +64,13 @@ AI service or licence check.
 line. Output workbooks are saved to the current folder, or to the path given
 with `-o`.
 
+**Activity log:** every run appends a row to `activity_log.csv` in the
+toolkit folder. Each row records the time, the Windows user and computer
+name, the command, the full path and SHA-256 hash of every input file, the
+output files written, and that networking was blocked. The log stays on
+this machine. IT can compare the hashes against the original files, and
+compare the times and paths against its own endpoint, USB and network logs.
+
 **Credentials:** none are stored or used. The `pbi` command reads the file
 package only. It does not refresh data or connect to the sources listed
 inside the Power BI file.
