@@ -22,7 +22,16 @@ writes results back to your own folders.
 1. Install Python 3.10+ (or ask IT for the approved build).
 2. `pip install -r requirements.txt` (or ask IT to install `pandas` and `openpyxl`).
 
-## Usage
+## Drag and drop (easiest)
+
+Drag `.pbix`/`.pbit` files, Excel/CSV files or a whole folder onto
+`drop_files_here.bat`. Results are saved next to the files you dropped:
+
+- Power BI file: `<name>_pbi_report_<time>.xlsx`
+- Excel/CSV file: `<name>_profile_<time>.xlsx`
+- Folder: `_profile_<time>.xlsx` and `_combined_<time>.xlsx` inside that folder
+
+## Command-line usage
 
 ```
 python bi_toolkit.py pbi "C:\Reports\Sales.pbit"

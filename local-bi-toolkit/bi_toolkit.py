@@ -11,6 +11,7 @@ Commands
   profile  <file-or-folder> [-o profile.xlsx]       Data-quality profile of Excel/CSV
   combine  <folder> [--sheet NAME] [-o out.xlsx]    Stack many Excel/CSV files into one
   compare  <old.xlsx> <new.xlsx> --key COL [-o diff.xlsx]   Row-level differences
+  auto     <files/folders...>                        Drag-and-drop mode (see drop_files_here.bat)
 """
 import argparse
 import io
@@ -43,6 +44,7 @@ import pandas as pd  # noqa: E402  (imported after the network block on purpose)
 
 EXCEL_EXT = {".xlsx", ".xlsm", ".xls"}
 TABULAR_EXT = EXCEL_EXT | {".csv"}
+OUTPUT_MARKERS = ("_profile_", "_combined_", "_pbi_report_", "_compare_")  # our own result files
 
 
 def log(msg):
@@ -209,7 +211,8 @@ def iter_files(target):
         yield p
     else:
         for f in sorted(p.rglob("*")):
-            if f.suffix.lower() in TABULAR_EXT and not f.name.startswith("~$"):
+            if (f.suffix.lower() in TABULAR_EXT and not f.name.startswith("~$")
+                    and not any(m in f.name for m in OUTPUT_MARKERS)):
                 yield f
 
 
@@ -241,7 +244,7 @@ def cmd_profile(args):
                              "distinct": int(s.nunique()),
                              "min": s.min() if num else "", "max": s.max() if num else "",
                              "sample": ", ".join(map(str, s.dropna().unique()[:3]))})
-    out = Path(args.out) if args.out else default_out("profile")
+    out = Path(args.out) if args.out else default_out("results_profile")
     write_sheets(out, {"Overview": pd.DataFrame(overview), "Columns": pd.DataFrame(cols)})
 
 
@@ -257,7 +260,7 @@ def cmd_combine(args):
     if not frames:
         sys.exit("No Excel/CSV files found.")
     combined = pd.concat(frames, ignore_index=True, sort=False)
-    out = Path(args.out) if args.out else default_out("combined")
+    out = Path(args.out) if args.out else default_out("results_combined")
     write_sheets(out, {"Combined": combined})
     log(f"Total rows: {len(combined)} from {len(frames)} sheets")
 
@@ -276,9 +279,25 @@ def cmd_compare(args):
             ov, nv = a.at[key, c], b.at[key, c]
             if not (pd.isna(ov) and pd.isna(nv)) and ov != nv:
                 changes.append({k: key, "column": c, "old": ov, "new": nv})
-    out = Path(args.out) if args.out else default_out("compare")
+    out = Path(args.out) if args.out else default_out("results_compare")
     write_sheets(out, {"Changed": pd.DataFrame(changes), "Added": added, "Removed": removed})
     log(f"{len(changes)} changed cells, {len(added)} added rows, {len(removed)} removed rows")
+
+
+def cmd_auto(args):
+    """Pick the right job for each dropped item; save results next to it."""
+    stamp = f"{datetime.now():%Y%m%d_%H%M%S}"
+    for item in map(Path, args.paths):
+        ext = item.suffix.lower()
+        if ext in (".pbix", ".pbit"):
+            cmd_pbi(argparse.Namespace(file=item, out=item.with_name(f"{item.stem}_pbi_report_{stamp}.xlsx")))
+        elif item.is_dir():
+            cmd_profile(argparse.Namespace(target=item, out=item / f"_profile_{stamp}.xlsx"))
+            cmd_combine(argparse.Namespace(folder=item, sheet=None, out=item / f"_combined_{stamp}.xlsx"))
+        elif ext in TABULAR_EXT:
+            cmd_profile(argparse.Namespace(target=item, out=item.with_name(f"{item.stem}_profile_{stamp}.xlsx")))
+        else:
+            log(f"Skipped {item.name}: not a Power BI, Excel/CSV file or folder")
 
 
 def main():
@@ -290,6 +309,7 @@ def main():
     p.add_argument("-o", "--out"); p.set_defaults(fn=cmd_combine)
     p = sub.add_parser("compare"); p.add_argument("old"); p.add_argument("new"); p.add_argument("--key", required=True)
     p.add_argument("--sheet"); p.add_argument("-o", "--out"); p.set_defaults(fn=cmd_compare)
+    p = sub.add_parser("auto"); p.add_argument("paths", nargs="+"); p.set_defaults(fn=cmd_auto)
     args = ap.parse_args()
     args.fn(args)
 
